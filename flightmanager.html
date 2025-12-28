@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飞行距离查询 - Flight Distance Mapper</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>✈️ 飞行距离查询</h1>
+            <p class="subtitle">Flight Distance Mapper</p>
+        </header>
+
+        <!-- 数据加载状态 -->
+        <div id="loading-status" class="loading-status">
+            <div class="loading-spinner"></div>
+            <span id="loading-text">正在加载全球机场数据...</span>
+        </div>
+
+        <div class="main-content">
+            <!-- 左侧面板 -->
+            <div class="left-panel">
+                <!-- 航线查询 -->
+                <div class="card">
+                    <h2>查询航线</h2>
+                    <div class="route-inputs">
+                        <div class="input-group">
+                            <label>出发机场</label>
+                            <input type="text" id="departure" placeholder="输入机场代码或名称 (如 PEK, Beijing)" autocomplete="off">
+                            <div id="departure-suggestions" class="suggestions"></div>
+                        </div>
+                        <div class="input-group">
+                            <label>到达机场</label>
+                            <input type="text" id="arrival" placeholder="输入机场代码或名称 (如 PVG, Shanghai)" autocomplete="off">
+                            <div id="arrival-suggestions" class="suggestions"></div>
+                        </div>
+                    </div>
+                    <div class="button-group">
+                        <button id="add-segment" class="btn btn-primary">添加航段</button>
+                        <button id="calculate" class="btn btn-secondary">计算距离</button>
+                        <button id="clear-route" class="btn btn-tertiary">清除</button>
+                    </div>
+                </div>
+
+                <!-- 当前航线 -->
+                <div class="card">
+                    <h2>当前航线</h2>
+                    <div id="current-route" class="route-list">
+                        <p class="empty-state">暂无航段，请添加航线</p>
+                    </div>
+                    <div id="route-distance" class="distance-display"></div>
+                </div>
+
+                <!-- 统计信息 -->
+                <div class="card stats-card">
+                    <h2>飞行统计</h2>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-label">已飞航段</div>
+                            <div class="stat-value" id="flown-count">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">已飞距离</div>
+                            <div class="stat-value" id="flown-distance">0 km</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">待飞航段</div>
+                            <div class="stat-value" id="planned-count">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">待飞距离</div>
+                            <div class="stat-value" id="planned-distance">0 km</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧地图 -->
+            <div class="right-panel">
+                <div class="map-container">
+                    <div id="map"></div>
+                </div>
+
+                <!-- 我的航段 -->
+                <div class="card my-flights-card">
+                    <h2>我的航段</h2>
+                    <div class="tabs">
+                        <button class="tab-btn active" data-tab="flown">已飞航段</button>
+                        <button class="tab-btn" data-tab="planned">待飞航段</button>
+                    </div>
+
+                    <div class="tab-content active" id="flown-tab">
+                        <div class="batch-actions">
+                            <button id="show-all-flown" class="btn btn-batch">批量显示全部</button>
+                            <button id="hide-all-flown" class="btn btn-batch-secondary" style="display: none;">退出显示</button>
+                        </div>
+                        <div id="flown-list" class="flight-list">
+                            <p class="empty-state">暂无已飞航段</p>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="planned-tab">
+                        <div class="batch-actions">
+                            <button id="show-all-planned" class="btn btn-batch">批量显示全部</button>
+                            <button id="hide-all-planned" class="btn btn-batch-secondary" style="display: none;">退出显示</button>
+                        </div>
+                        <div id="planned-list" class="flight-list">
+                            <p class="empty-state">暂无待飞航段</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="airports.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
