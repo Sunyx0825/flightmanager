@@ -1,4 +1,4 @@
-# 飞行距离查询 Flight Distance Mapper
+# 飞行距离查询 Flight Manager
 
 一个功能完整的飞行距离查询网页应用，类似于 Great Circle Mapper (gcmap.com)。
 
